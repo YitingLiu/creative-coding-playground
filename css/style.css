@@ -1,0 +1,172 @@
+/* week 1*/
+body {
+	background-color: #6D8994;
+	font-family: sans-serif;
+	padding-left: 50px;
+}
+
+h1 {
+	font-size: 60px;
+	font-weight:600;
+	color: white;
+	margin-bottom: 0px;
+}
+
+#time {
+    margin-top: 0px;
+}
+
+h3 {
+	padding-top: -50px;
+	font-size: 25px;
+	font-weight:600;
+	color:rgba(0,0,0,0.5);
+}
+.back, .front {
+	background-color: #5E767F;
+}
+.text {
+	color: rgba(255,255,255,0.9);
+	padding-top:10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.erase {
+	visibility: hidden;
+}
+
+a {
+	padding-top: -50px;
+	font-size: 25px;
+	font-weight:600;
+	color:rgba(255,255,255,0.7);
+}
+
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+}
+	/* flip the pane when hovered */
+	.flip-container:hover .flipper, .flip-container.hover .flipper {
+		transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 340px;
+	height: 250px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+}
+
+
+/* week 2  */
+
+textarea {
+    width: 100%;
+    height: 200px;
+    margin: 8px 0;
+    /*box-sizing: border-box;*/
+}
+
+.outputtext {
+	color: rgba(255,255,255,0.9);
+	padding-top:10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 15px;
+
+}
+
+#line1,
+#line2, 
+#line3,
+#line4, 
+#line5, 
+#line6, 
+#line7,
+#line8, 
+#line9,
+#line10, 
+#line11, 
+#line12,
+#line13 {
+	line-height: 20px;	
+	color:#FFC3FF;
+	font-size: 40px;
+	text-transform: capitalize;
+}
+#line1,
+#line6 {
+	padding-top: 20px;
+}
+
+#line1 span,
+#line2 span, 
+#line3 span,
+#line4 span, 
+#line5 span, 
+#line6 span, 
+#line7 span,
+#line8 span, 
+#line9 span,
+#line10 span, 
+#line11 span, 
+#line12 span,
+#line13 span{
+	margin-left: -10px;
+}
+
+
+
+/*  week3   */
+#w3word {
+	font-size: 30px;
+}
+
+#w3falseButton,
+#w3trueButton {
+	background-color: rgba(255,255,255,0.9);
+}
+#w3falseButton{
+	margin-left: 10px;
+}
+#w3falseButton: hover{
+	background-color: rgba(255,255,255,0.5);
+}
+.w3text {
+	color: rgba(255,255,255,0.9);
+	padding-top:10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 30px;
+	}
+
