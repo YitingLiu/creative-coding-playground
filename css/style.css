@@ -26,26 +26,4 @@ a {
 	color:rgba(255,255,255,0.7);
 }
 
-/*recursion*/
-/*
-body {
-	background-color: #F5F4F2; 
-	font-family: sans-serif;
-	padding-left: 50px;
-}
-
-h1 {
-	font-size: 60px;
-	font-weight:600;
-	color: rgba(0,0,0,0.8);
-	margin-bottom: 0px;
-}*/
-
-#canvasContainer1 {
-	width:100%;
-}
-#sketch1 {
-	width:100%;
-}
-
 
