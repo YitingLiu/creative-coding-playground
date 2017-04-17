@@ -2,7 +2,7 @@ var lsys;
 var turtle;
 
 function setup() {
-  var myCanvas=createCanvas(600, 500);
+  var myCanvas=createCanvas(window.innerWidth, window.innerHeight-100);
   myCanvas.parent("c1");
   var ruleset = [];
   ruleset[0] = new Rule('F', "FF+[+F-F-F]-[-F+F+F]");
@@ -20,7 +20,7 @@ function draw() {
   background(255);
 
   // for (var g = 0; g < 2; g++) {
-  if (lsys.gen < 4) {
+  if (lsys.gen < 5) {
     a *= 0.8;
 
     lsys.generate();
