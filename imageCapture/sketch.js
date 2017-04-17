@@ -31,7 +31,7 @@ function setup() {
 
 function draw() {
 
-  background(255,5)
+  background(255)
   image(capture, w + 10, 10, w / 2 - 20, h / 2 - 20);
 
   capture.loadPixels();
@@ -84,7 +84,7 @@ function draw() {
         text("A", current[0].x / 2 + w, current[0].y / 2 + h / 2);
         
         var avg3 = map(rd + gn + bl, 0, 764, 20, 0)
-        fill(rd, gn, bl, avg3);
+        // fill(rd, gn, bl, avg3);
         rect(current[0].x / 2 + w * 3 / 2, current[0].y / 2 + h / 2, avg3 / 2, avg3 / 2);
       }
     }
