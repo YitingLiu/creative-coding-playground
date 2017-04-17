@@ -79,12 +79,13 @@ function draw() {
           current[2].x, current[2].y,
           current[3].x, current[3].y);
 
-        var avg2 = map(rd + gn + bl, 0, 764, 20, 0)
+        var avg2 = map(rd + gn + bl, 0, 764, 0, 20)
         textSize(avg2);
         text("A", current[0].x / 2 + w, current[0].y / 2 + h / 2);
-
-        // fill(rd, gn, bl, avg2);
-        rect(current[0].x / 2 + w * 3 / 2, current[0].y / 2 + h / 2, avg2 / 2, avg2 / 2);
+        
+        var avg3 = map(rd + gn + bl, 0, 764, 20, 0)
+        fill(rd, gn, bl, avg3);
+        rect(current[0].x / 2 + w * 3 / 2, current[0].y / 2 + h / 2, avg3 / 2, avg3 / 2);
       }
     }
   }
