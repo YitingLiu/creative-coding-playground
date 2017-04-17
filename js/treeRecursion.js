@@ -62,7 +62,7 @@ var s3=function(p){
     p.stroke(0, len);
     p.line(0, 0, 0, -len);
     p.translate(0, -len);
-    len *= 0.7;
+    len *= 0.65;
     if (len > 3) {
       var n = p.floor(p.random(1.5, 5.5));
       for (var i = 0; i < n; i++) {
