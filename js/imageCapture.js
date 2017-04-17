@@ -7,13 +7,13 @@ var w = 640;
 var h = 480;
 
 function setup() {
-  var myCanvas=createCanvas(w * 2, h);
-  myCanvas.parent("c1");
+  createCanvas(w * 2, h);
   capture = createCapture(VIDEO);
   capture.size(w / 2, h / 2);
   capture.hide();
 
   frameRate(5);
+
 
 
   stepx = w / steps;
