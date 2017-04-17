@@ -9,7 +9,7 @@ var h = 480;
 function setup() {
   createCanvas(w * 2, h);
   capture = createCapture(VIDEO);
-  capture.size(w / 2, h / 2);
+  capture.size(w, h);
   capture.hide();
 
   frameRate(5);
