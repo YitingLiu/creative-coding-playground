@@ -7,7 +7,8 @@ var w = 640;
 var h = 480;
 
 function setup() {
-  createCanvas(w * 2, h);
+  var myCanvas=createCanvas(w * 2, h);
+  myCanvas.parent("c1");
   capture = createCapture(VIDEO);
   capture.size(w / 2, h / 2);
   capture.hide();
