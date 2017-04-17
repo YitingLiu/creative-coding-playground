@@ -31,7 +31,7 @@ function setup() {
 
 function draw() {
 
-  background(255)
+  background(255,5)
   image(capture, w + 10, 10, w / 2 - 20, h / 2 - 20);
 
   capture.loadPixels();
