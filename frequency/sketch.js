@@ -15,7 +15,7 @@ function preload() {
 }
 
 function setup() {
-  var myCanvas = createCanvas(windowWidth, windowHeight);
+  var myCanvas = createCanvas(windowWidth, windowHeight-100);
   myCanvas.parent('c1');
   background(0);
   angleMode(DEGREES);
