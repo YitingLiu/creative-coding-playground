@@ -12,12 +12,13 @@ var posY = [];
 
 
 function preload() {
-  music = loadSound('music/IntoEther.mp3');
+  music = loadSound("music/IntoEther.mp3");
 }
 
 function setup() {
   var myCanvas=createCanvas(windowWidth, windowHeight);
   myCanvas.parent('c1');
+
   background(0);
   angleMode(DEGREES);
   noStroke();
