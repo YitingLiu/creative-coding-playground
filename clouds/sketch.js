@@ -30,6 +30,4 @@ function draw() {
   }
   zoff += 0.01;
   updatePixels();
-  print(pixelDensity());
-  print(pixels.length);
 }
