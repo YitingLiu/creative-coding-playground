@@ -15,8 +15,9 @@ function preload() {
 }
 
 function setup() {
-  var myCanvas=createCanvas(windowWidth, 720);
-  myCanvas.parent('c1');  background(0);
+  var myCanvas = createCanvas(windowWidth, windowHeight);
+  myCanvas.parent('c1');
+  background(0);
   angleMode(DEGREES);
   music.play();
   amp = new p5.Amplitude();
