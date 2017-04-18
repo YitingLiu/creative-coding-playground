@@ -2,7 +2,7 @@ var lsys;
 var turtle;
 
 function setup() {
-  var myCanvas=createCanvas(window.innerWidth, window.innerHeight-100);
+  var myCanvas = createCanvas(window.innerWidth, window.innerHeight - 100);
   myCanvas.parent("c1");
   var ruleset = [];
   ruleset[0] = new Rule('F', "FF+[+F-F-F]-[-F+F+F]");
@@ -32,17 +32,18 @@ function draw() {
   }
   turtle.display();
   stroke(0, a);
+
 }
 
-Rule=function(a,b){
-  this.a=a;
-  this.b=b;
-  
-  this.getA=function(){
+Rule = function(a, b) {
+  this.a = a;
+  this.b = b;
+
+  this.getA = function() {
     return this.a;
   }
-  
-  this.getB=function(){
+
+  this.getB = function() {
     return this.b;
   }
 }

@@ -14,8 +14,8 @@ var midoff = 643;
 
 
 function setup() {
-  createCanvas(windowWidth, 500);
-  peakX = [0.16, 0.25, 0.33, 0.39, 0.42, 0.46, 0.51, 0.62, 0.7];
+  var myCanvas=createCanvas(windowWidth, 500);
+  myCanvas.parent("c1");  peakX = [0.16, 0.25, 0.33, 0.39, 0.42, 0.46, 0.51, 0.62, 0.7];
   peakX.forEach(function(e) {
     e = e * width;
   });

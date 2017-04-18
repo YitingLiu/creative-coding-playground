@@ -8,7 +8,8 @@ var noiseScale = 50;
 var offs = [];
 
 function setup() {
-  createCanvas(windowWidth, 500);
+  var myCanvas=createCanvas(windowWidth, 500);
+  myCanvas.parent("c1");
   peakX = [width / 2, width * 2 / 3, width / 5, width / 4];
 
   colorMode(RGB, 255, 255, 255, 1);
