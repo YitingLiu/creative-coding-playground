@@ -12,7 +12,7 @@ var posY = [];
 
 
 function preload() {
-  music = loadSound("music/IntoEther.mp3");
+  music = loadSound('music/IntoEther.mp3');
 }
 
 function setup() {
