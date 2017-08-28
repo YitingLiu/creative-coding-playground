@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>D3.js</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <h1>Weather forecast:</h1>
+    <h2>Orlando</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>High</th>
+                <th>Low</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <h2>SVG Graph</h2>
+    <div id='viz1'>
+        <svg width="600" height="400" style="background-color: lightgrey">
+            <line
+                x1='0' y1='200' x2='600' y2='200'
+                style='stroke: pink; stroke-width:30px'
+            />
+            <rect
+                x='200' y='100' width='200' height='200'
+                style='fill: lightblue'
+            />
+            <circle
+                cx='300' cy='100' r='90'
+                style='fill:orange'
+            />
+            <text x='20' y='390'>Hello World!</text>
+
+            <!-- group -->
+            <g id='triangle'>
+                <polyline
+                    points='10 35,30 10, 50 35'
+                    style='fill:yellow'
+                />
+            </g>
+
+            <!-- reuse -->
+            <use xlink:href='#triangle' x='30' y='50' />
+            <use xlink:href='#triangle' x='67' y='6' />
+            <use xlink:href='#triangle' x='398' y='90' />
+            <use xlink:href='#triangle' x='332' y='10' />
+            <use xlink:href='#triangle' x='120' y='60' />
+        </svg>
+    </div>
+    <div id='viz'>
+    </div>
+<script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>
