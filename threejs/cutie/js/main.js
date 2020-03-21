@@ -56,6 +56,8 @@ var mat_black=new THREE.MeshLambertMaterial({color:0x505279});
 var mat_yellow=new THREE.MeshLambertMaterial({color:0xeda01b});
 var mat_green=new THREE.MeshLambertMaterial({color:0x809e5c});
 var mat_skin=new THREE.MeshLambertMaterial({color:0xf6dbc3});
+var mat_pink=new THREE.MeshLambertMaterial({color:0xf5978d});
+
 
 
 //plane
@@ -75,8 +77,85 @@ var geo_head=new THREE.IcosahedronGeometry(2.5);
 var head = new THREE.Mesh( geo_head, mat_skin );
 head.position.set(0,2.3,0);
 head.castShadow=true;
-
 group_head.add( head );
+
+//hat
+var group_hat=new THREE.Group();
+
+
+//draw helper line
+// var mat_line = new THREE.LineBasicMaterial({
+//   color: 0x0000ff
+// });
+
+// const seg_hat=7;
+// const seg_height=.5;
+// let y=[],
+//     z=[],
+//     beta=[];
+// beta[0]=Math.PI*90/180;
+// beta[seg_hat-1]=Math.PI*60/180;
+
+// for(var i=1;i<seg_hat-1;i++){
+//   beta[i]=beta[i-1]+(beta[seg_hat-1]-beta[0])/seg_hat;
+// }
+
+// y[0]=0;
+// z[0]=0;
+// var points = [];
+// points.push(new THREE.Vector3(0,y[0],z[0]));
+// for(var i=1;i<seg_hat;i++){
+//   y[i]=y[i-1]+seg_height*Math.sin(beta[i-1]);
+//   z[i]=z[i-1]+seg_height*Math.cos(beta[i-1]);
+//   points.push(new THREE.Vector3(0,y[i],z[i]));
+// }
+// var geo_line = new THREE.BufferGeometry().setFromPoints( points );
+// var line = new THREE.Line( geo_line, mat_line );
+// group_hat.add( line );
+
+//hat brim
+const brim_r=4;
+const seg_bottom=11;
+let shape;
+shape = new THREE.Shape();
+shape.moveTo( brim_r*Math.cos(0),brim_r*Math.sin(0) );
+for(var i=0;i<seg_bottom-1;i++){
+  var theta=2*Math.PI/seg_bottom*(i+1);
+  shape.lineTo(brim_r*Math.cos(theta),brim_r*Math.sin(theta))
+}
+var extrudeSettings = {
+  steps: 2,
+  depth: .3,
+  bevelEnabled:true,
+  bevelThickness: .1,
+  bevelSize: .2,
+  bevelOffset: 0,
+  bevelSegments: 3
+};
+
+var geo_brim = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+var brim=new THREE.Mesh(geo_brim,mat_black);
+brim.rotation.x=Math.PI/2;
+group_hat.add(brim);
+
+//hat crown
+var geo_crown=new THREE.CylinderGeometry(0,2,4);
+var crown=new THREE.Mesh(geo_crown,mat_black);
+crown.position.y=2;
+group_hat.add(crown);
+
+//hat decoration
+var geo_dec=new THREE.CylinderGeometry(1.5,1.75,.5);
+var dec=new THREE.Mesh(geo_dec,mat_pink);
+dec.position.y=.9;
+group_hat.add(dec);
+
+
+group_hat.position.set(0,3.62,-.3);
+group_hat.rotation.set(-Math.PI/15,0,Math.PI/15);
+group_head.add(group_hat);
+
+
 
 //glass
 var group_glasses=new THREE.Group();
@@ -191,11 +270,11 @@ group_bottom.add(rightLeg);
 // var geo_shoe=new THREE.BoxGeometry(.8,.3,.6);
 var geo_shoe=new THREE.IcosahedronGeometry(.5);
 var leftShoe=new THREE.Mesh(geo_shoe,mat_black);
-leftShoe.position.set(.15,-2.85,-.5); // box y=-3.05
+leftShoe.position.set(0,-2.85,-.5); // box y=-3.05
 group_bottom.add(leftShoe);
 
 var rightShoe=new THREE.Mesh(geo_shoe,mat_black);
-rightShoe.position.set(.15,-2.85,.5);
+rightShoe.position.set(0,-2.85,.5);
 group_bottom.add(rightShoe);
 
 scene.add(group_bottom);
