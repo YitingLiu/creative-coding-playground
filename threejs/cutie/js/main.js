@@ -5,8 +5,8 @@ var scene = new THREE.Scene();
 var h = window.innerHeight,
     w = window.innerWidth;
 var aspectRatio = w / h,
-    fieldOfView = 25,
-    nearPlane = .1,
+    fieldOfView = 45,
+    nearPlane = 1,
     farPlane = 1000;
 var camera = new THREE.PerspectiveCamera(
     fieldOfView,
@@ -20,10 +20,10 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild( renderer.domElement );
 
 //camera
-camera.position.set(40,.1,0);
-camera.lookAt(new THREE.Vector3(0,0,0));
+camera.position.set(30,5,-10);
+camera.lookAt(new THREE.Vector3(0,0,-10));
 
-// camera.position.set(40,2,-25);
+// camera.position.set(30,0,0);
 // camera.lookAt(new THREE.Vector3(0,0,0));
 
 
@@ -31,14 +31,23 @@ camera.lookAt(new THREE.Vector3(0,0,0));
 var light = new THREE.AmbientLight( col_primary,.5);
 
 var keyLight = new THREE.DirectionalLight(col_primary, .6);
-keyLight.position.set(10, 15, 10);
+keyLight.position.set(20, 30, 20);
 keyLight.castShadow = true;
 
+keyLight.shadow.camera.left=-20;  //default:-5
+keyLight.shadow.camera.right=20;  //default:5
+keyLight.shadow.camera.top=20;  // default:5
+keyLight.shadow.camera.bottom=-20; //default:-5
+
+// var shadowHelper = new THREE.CameraHelper( keyLight.shadow.camera );
+// scene.add( shadowHelper );
+
+
 var fillLight = new THREE.DirectionalLight(col_primary, .3);
-fillLight.position.set(10, 10, -10);
+fillLight.position.set(20, 20, -20);
 
 var backLight = new THREE.DirectionalLight(col_primary, .1);
-backLight.position.set(-10, 0, 0);
+backLight.position.set(-20, 0, 0);
 
 scene.add(light);
 scene.add(keyLight);
@@ -47,8 +56,8 @@ scene.add(backLight);
 
 
 // axis
-var axesHelper = new THREE.AxesHelper( 50 );
-scene.add( axesHelper );
+// var axesHelper = new THREE.AxesHelper( 50 );
+// scene.add( axesHelper );
 
 //materials
 var material = new THREE.MeshLambertMaterial( { color: 0xbec2c5 } );
@@ -61,13 +70,16 @@ var mat_pink=new THREE.MeshLambertMaterial({color:0xf5978d});
 
 
 //plane
-var geo_plane = new THREE.BoxGeometry( 10, 1, 10 );
+var geo_plane = new THREE.BoxGeometry( 800, 1, 200 );
 var material_plane = new THREE.ShadowMaterial({opacity:.4});
-var plane = new THREE.Mesh( geo_plane, material_plane );
-plane.position.set(0,-3.8,0);
+var plane = new THREE.Mesh( geo_plane, material_plane);
+plane.position.set(-380,-3.8,0);
 plane.receiveShadow=true;
 scene.add( plane );
 
+
+//---------------cutie-------------------
+var group_cutie=new THREE.Group();
 // head
 var group_head=new THREE.Group();
 
@@ -81,37 +93,6 @@ group_head.add( head );
 
 //hat
 var group_hat=new THREE.Group();
-
-
-//draw helper line
-// var mat_line = new THREE.LineBasicMaterial({
-//   color: 0x0000ff
-// });
-
-// const seg_hat=7;
-// const seg_height=.5;
-// let y=[],
-//     z=[],
-//     beta=[];
-// beta[0]=Math.PI*90/180;
-// beta[seg_hat-1]=Math.PI*60/180;
-
-// for(var i=1;i<seg_hat-1;i++){
-//   beta[i]=beta[i-1]+(beta[seg_hat-1]-beta[0])/seg_hat;
-// }
-
-// y[0]=0;
-// z[0]=0;
-// var points = [];
-// points.push(new THREE.Vector3(0,y[0],z[0]));
-// for(var i=1;i<seg_hat;i++){
-//   y[i]=y[i-1]+seg_height*Math.sin(beta[i-1]);
-//   z[i]=z[i-1]+seg_height*Math.cos(beta[i-1]);
-//   points.push(new THREE.Vector3(0,y[i],z[i]));
-// }
-// var geo_line = new THREE.BufferGeometry().setFromPoints( points );
-// var line = new THREE.Line( geo_line, mat_line );
-// group_hat.add( line );
 
 //hat brim
 const brim_r=4;
@@ -145,14 +126,14 @@ crown.position.y=2;
 group_hat.add(crown);
 
 //hat decoration
-var geo_dec=new THREE.CylinderGeometry(1.5,1.75,.5);
+var geo_dec=new THREE.CylinderGeometry(1.7,2,.6);
 var dec=new THREE.Mesh(geo_dec,mat_pink);
-dec.position.y=.9;
+dec.position.y=.4;
 group_hat.add(dec);
 
 
-group_hat.position.set(0,3.62,-.3);
-group_hat.rotation.set(-Math.PI/15,0,Math.PI/15);
+group_hat.position.set(0,3.62,.3);
+group_hat.rotation.set(Math.PI/15,0,Math.PI/15);
 group_head.add(group_hat);
 
 
@@ -173,9 +154,8 @@ group_glasses.add( rightGlass );
 
 group_glasses.position.set(2.5,2.5,0);
 
-
 group_head.add(group_glasses);
-scene.add(group_head);
+group_cutie.add(group_head);
 
 
 
@@ -247,7 +227,7 @@ group_upper.add(group_rightArm);
 group_rightArm.rotation.x=-armInitRotationX;
 group_rightArm.position.set(0,Math.sin(group_rightArm.rotation.x)+armInitPositionY,-2.2);
 
-scene.add(group_upper);
+group_cutie.add(group_upper);
 
 //buttom body
 var group_bottom=new THREE.Group();
@@ -271,13 +251,17 @@ group_bottom.add(rightLeg);
 var geo_shoe=new THREE.IcosahedronGeometry(.5);
 var leftShoe=new THREE.Mesh(geo_shoe,mat_black);
 leftShoe.position.set(0,-2.85,-.5); // box y=-3.05
+leftShoe.castShadow=true;
 group_bottom.add(leftShoe);
 
 var rightShoe=new THREE.Mesh(geo_shoe,mat_black);
 rightShoe.position.set(0,-2.85,.5);
+rightShoe.castShadow=true;
 group_bottom.add(rightShoe);
 
-scene.add(group_bottom);
+group_cutie.add(group_bottom);
+group_cutie.rotation.y=Math.PI/4;
+scene.add(group_cutie);
 
 //render
 var render = function(){
@@ -325,54 +309,56 @@ canvas.addEventListener('mousemove', function(evt) {
 }, false);
 
 
-//text
-// var fontSize1=.9;
-// var loader = new THREE.FontLoader();
-// loader.load( 'https://raw.githubusercontent.com/YitingLiu/poem/master/codepen/Lato_Bold.json', function(font){
+// text
+var group_text=new THREE.Group();
+var fontSize1=2;
+var loader = new THREE.FontLoader();
+loader.load( './js/Lato_Bold.json', function(font){
 
-//   //front
-//   var posY=2.5;
-//   var gap=(posY*2+fontSize1)/4;
-//   var text1=createText("Hi there,",font,fontSize1);
-//   text1.position.set(5,posY,4.5);
-//   text1.rotation.y=Math.PI/2;
-//   group.add(text1);
+  //front
+  var text1=createText("Coming soon...",font,fontSize1);
+  text1.position.set(1,-3.25,-5);
+  text1.rotation.set(0,Math.PI/3,0);
+  text1.castShadow=true;
+  text1.receiveShadow=true;
+  group_text.add(text1);
 
-//   var text2=createText("I'm Yiting Liu.",font,fontSize1);
-//   text2.position.set(5,posY-gap,4.5);
-//   text2.rotation.y=Math.PI/2;
-//   group.add(text2);
+  // var text2=createText("I'm Yiting Liu.",font,fontSize1);
+  // text2.position.set(5,posY-gap,4.5);
+  // text2.rotation.y=Math.PI/2;
+  // group.add(text2);
 
-//   var text3=createText('a UX designer',font,fontSize1);
-//   text3.position.set(5,posY-gap*2,4.5);
-//   text3.rotation.y=Math.PI/2;
-//   group.add(text3);
+  // var text3=createText('a UX designer',font,fontSize1);
+  // text3.position.set(5,posY-gap*2,4.5);
+  // text3.rotation.y=Math.PI/2;
+  // group.add(text3);
 
-//   var text4=createText('in Shanghai',font,fontSize1);
-//   text4.position.set(5,posY-gap*3,4.5);
-//   text4.rotation.y=Math.PI/2;
-//   group.add(text4);
+  // var text4=createText('in Shanghai',font,fontSize1);
+  // text4.position.set(5,posY-gap*3,4.5);
+  // text4.rotation.y=Math.PI/2;
+  // group.add(text4);
 
-//   var text5=createText('in Shanghai.',font,fontSize1);
-//   text5.position.set(5,posY-gap*4,4.5);
-//   text5.rotation.y=Math.PI/2;
-//   group.add(text5);
+  // var text5=createText('in Shanghai.',font,fontSize1);
+  // text5.position.set(5,posY-gap*4,4.5);
+  // text5.rotation.y=Math.PI/2;
+  // group.add(text5);
 
-// } );
+} );
 
-// function createText(text,font,size){
-//   var textGeo = new THREE.TextGeometry( text, {
-// 		font: font,
-// 		size: size,
-// 		height: .1, // thickness
-//     bevelEnabled: true,
-// 		bevelThickness: .02,
-// 		bevelSize: .02,
-// 		bevelOffset: 0,
-// 		bevelSegments: 3
-// 	} );
-//   var textMat = new THREE.MeshLambertMaterial( { color: 0xffffff } );
-//   var text=new THREE.Mesh(textGeo,textMat);
-//   return text;
-// }
+scene.add(group_text);
 
+function createText(text,font,size){
+  var textGeo = new THREE.TextGeometry( text, {
+		font: font,
+		size: size,
+		height: .3, // thickness
+    bevelEnabled: true,
+		bevelThickness: .02,
+		bevelSize: .02,
+		bevelOffset: 0,
+		bevelSegments: 3
+	} );
+  var textMat = new THREE.MeshLambertMaterial( { color: 0xffffff } );
+  var text=new THREE.Mesh(textGeo,textMat);
+  return text;
+}
