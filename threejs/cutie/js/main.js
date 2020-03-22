@@ -20,11 +20,11 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild( renderer.domElement );
 
 //camera
-// camera.position.set(30,5,-10);
-// camera.lookAt(new THREE.Vector3(0,0,-10));
+camera.position.set(30,5,-10);
+camera.lookAt(new THREE.Vector3(0,0,-10));
 
-camera.position.set(30,1,0);
-camera.lookAt(new THREE.Vector3(0,0,0));
+// camera.position.set(30,1,0);
+// camera.lookAt(new THREE.Vector3(0,0,0));
 
 
 //lights, 3 point lighting
@@ -34,8 +34,8 @@ var keyLight = new THREE.DirectionalLight(col_primary, .6);
 keyLight.position.set(20, 30, 20);
 keyLight.castShadow = true;
 
-keyLight.shadow.camera.left=-20;  //default:-5
-keyLight.shadow.camera.right=20;  //default:5
+keyLight.shadow.camera.left=-5;  //default:-5
+keyLight.shadow.camera.right=25;  //default:5
 keyLight.shadow.camera.top=20;  // default:5
 keyLight.shadow.camera.bottom=-20; //default:-5
 
@@ -56,8 +56,8 @@ scene.add(backLight);
 
 
 // axis
-var axesHelper = new THREE.AxesHelper( 50 );
-scene.add( axesHelper );
+// var axesHelper = new THREE.AxesHelper( 50 );
+// scene.add( axesHelper );
 
 //materials
 var mat_black=new THREE.MeshLambertMaterial({color:0x505279});
@@ -65,7 +65,7 @@ var mat_yellow=new THREE.MeshLambertMaterial({color:0xeda01b});
 var mat_green=new THREE.MeshLambertMaterial({color:0x809e5c});
 var mat_skin=new THREE.MeshLambertMaterial({color:0xf6dbc3});
 var mat_pink=new THREE.MeshLambertMaterial({color:0xf5978d});
-
+var mat_white=new THREE.MeshLambertMaterial({color:0xd4d9db});
 
 
 //plane
@@ -134,9 +134,9 @@ group_head.add(group_hat);
 //hair
 let shape_hair=createShape(.45,8);
 var curve = new THREE.CubicBezierCurve3(
-  new THREE.Vector3( 0, 1.9, 0 ),
-  new THREE.Vector3( 0, 1.5, -4.5 ),
-  new THREE.Vector3( 0, -1.5, -.5 ),
+  new THREE.Vector3( 0, 1.8, 0 ),
+  new THREE.Vector3( 0, 1.5, -4 ),
+  new THREE.Vector3( 0, 0, -.5 ),
   new THREE.Vector3( 0, -1.5, -3.2 )
 );
 var extrudeSettings = {
@@ -147,7 +147,7 @@ var extrudeSettings = {
 var geo_hair = new THREE.ExtrudeGeometry( shape_hair, extrudeSettings );
 var hair=new THREE.Mesh(geo_hair,mat_black);
 hair.castShadow=true;
-hair.position.y=2;
+hair.position.y=2.4;
 hair.rotation.y=-Math.PI/10;
 var hairs=[];
 group_head.add(hair);
@@ -155,8 +155,8 @@ for(var i=1;i<13;i++){
   hairs[i]=hair.clone();
   hairs[i].rotation.y=Math.PI/10*i-Math.PI/10;
   group_head.add(hairs[i]);
-  const k=.1;
-  if(i>1 && i<=6) hairs[i].position.y=2-k*(i-1);
+  const k=.145;
+  if(i<=6) hairs[i].position.y=2-k*(i-1);
   if(i>6) hairs[i].position.y=2-k*(12-i);
 
 }
@@ -290,13 +290,13 @@ var group_bottom=new THREE.Group();
 // var geo_leg = new THREE.BoxGeometry( .5, 1, .5 );
 var geo_leg=new THREE.CylinderGeometry( .1, .05, 1,5);
 var leftLeg=new THREE.Mesh(geo_leg,mat_skin);
-leftLeg.position.set(0,-2.5,.25);
+leftLeg.position.set(0,-2.55,.25);
 leftLeg.castShadow=true;
 // leftLeg.visible=false;
 group_bottom.add(leftLeg);
 
 var rightLeg=new THREE.Mesh(geo_leg,mat_skin);
-rightLeg.position.set(0,-2.5,-.25);
+rightLeg.position.set(0,-2.55,-.25);
 rightLeg.castShadow=true;
 // rightLeg.visible=false;
 group_bottom.add(rightLeg);
@@ -305,19 +305,19 @@ group_bottom.add(rightLeg);
 // var geo_shoe=new THREE.BoxGeometry(.8,.3,.6);
 var geo_shoe=new THREE.IcosahedronGeometry(.1);
 var leftShoe=new THREE.Mesh(geo_shoe,mat_black);
-leftShoe.position.set(0,-3.1,-.25); // box y=-3.05
+leftShoe.position.set(0,-3.15,-.25); // box y=-3.05
 leftShoe.castShadow=true;
 group_bottom.add(leftShoe);
 
 var rightShoe=new THREE.Mesh(geo_shoe,mat_black);
-rightShoe.position.set(0,-3.1,.25);
+rightShoe.position.set(0,-3.15,.25);
 rightShoe.castShadow=true;
 group_bottom.add(rightShoe);
 // group_bottom.scale.set(.5,1,.5);
 group_cutie.add(group_bottom);
 
 
-// group_cutie.rotation.y=Math.PI/4;
+group_cutie.rotation.y=Math.PI/4;
 scene.add(group_cutie);
 
 //render
@@ -349,7 +349,7 @@ canvas.addEventListener('mousemove', function(evt) {
   //head
   group_head.rotation.y=.75*angleY;
   group_head.rotation.z=.5*angleZ;
-  group_head.position.x=-angleZ;
+  group_head.position.x=-.4*angleZ;
 
   //upperbody
   group_upper.rotation.y=.25*angleY;
@@ -375,9 +375,43 @@ canvas.addEventListener('mousemove', function(evt) {
 
   //bottom body
   group_bottom.rotation.y=.25*angleY;
-  group_bottom.position.x=.25*angleZ;
+  group_bottom.position.x=.5*angleZ;
 
 }, false);
+
+//clouds
+// var clouds=new THREE.Group();
+// var cloud=[];
+
+// geo_cloud=new THREE.IcosahedronGeometry(1);
+// cloud.push(new THREE.Mesh(geo_cloud,mat_white));
+// cloud.push(new THREE.Mesh(geo_cloud,mat_white));
+// cloud.push(new THREE.Mesh(geo_cloud,mat_white));
+// cloud.push(new THREE.Mesh(geo_cloud,mat_white));
+
+
+// for(var i=0;i<cloud.length;i++){
+//   clouds.add(cloud[i]);
+// }
+
+// cloud[0].scale.set(1,1,2);
+// cloud[1].scale.set(1,1.5,1.5);
+// cloud[2].scale.set(1,1,1);
+// cloud[3].scale.set(1,1,1.8);
+
+// cloud[0].position.set(0,0,0);
+// cloud[1].position.set(-.2,1,-.5);
+// cloud[2].position.set(0,.8,-1.8);
+// cloud[3].position.set(0,0,-1.8);
+
+// cloud[0].rotation.set(Math.PI/12,0,Math.PI/8);
+// cloud[1].rotation.set(Math.PI/8,0,Math.PI/3);
+// cloud[2].rotation.set(0,0,-1.5);
+// cloud[3].rotation.set(0,0,-1.8);
+
+// clouds.position.z=-10;
+// scene.add(clouds);
+
 
 
 // text
@@ -387,32 +421,20 @@ var loader = new THREE.FontLoader();
 loader.load( './js/Lato_Bold.json', function(font){
 
   //front
-  var text1=createText("Coming soon...",font,fontSize1);
-  text1.position.set(1,-3.25,-5);
-  text1.rotation.set(0,Math.PI/3,0);
-  text1.castShadow=true;
-  text1.receiveShadow=true;
-  group_text.add(text1);
+  // var text1=createText("Uh oh...",font,fontSize1);
+  // var text1=createText("Keep calm",font,fontSize1);
+  // text1.position.set(-10,-3.25,-10);
+  // text1.rotation.set(0,Math.PI/3,0);
+  // text1.castShadow=true;
+  // text1.receiveShadow=true;
+  // group_text.add(text1);
 
-  // var text2=createText("I'm Yiting Liu.",font,fontSize1);
-  // text2.position.set(5,posY-gap,4.5);
-  // text2.rotation.y=Math.PI/2;
-  // group.add(text2);
-
-  // var text3=createText('a UX designer',font,fontSize1);
-  // text3.position.set(5,posY-gap*2,4.5);
-  // text3.rotation.y=Math.PI/2;
-  // group.add(text3);
-
-  // var text4=createText('in Shanghai',font,fontSize1);
-  // text4.position.set(5,posY-gap*3,4.5);
-  // text4.rotation.y=Math.PI/2;
-  // group.add(text4);
-
-  // var text5=createText('in Shanghai.',font,fontSize1);
-  // text5.position.set(5,posY-gap*4,4.5);
-  // text5.rotation.y=Math.PI/2;
-  // group.add(text5);
+  var text2=createText("Take a breath...",font,fontSize1);
+  text2.position.set(1,-3.25,-6);
+  text2.rotation.set(0,Math.PI/3,0);
+  text2.castShadow=true;
+  text2.receiveShadow=true;
+  group_text.add(text2);
 
 } );
 
@@ -443,4 +465,3 @@ function createShape(r,seg){
   }
   return shape;
 }
-
