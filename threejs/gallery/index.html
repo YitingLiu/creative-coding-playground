@@ -7,7 +7,7 @@
 			body {
 				margin:0;
 			    overflow:hidden;
-			    background:#c4d7d5;
+			    background:#d3dfdd;
 			    display:flex;
 			    justify-content:center;
 			    align-items:center;
@@ -15,11 +15,18 @@
 			}
 			canvas {
 				display: block;
-
+		    }
+		    div#smoke{
+		    	position:fixed;
+		    	bottom: 0;
+		    	width:100vw;
+		    	height: 20vh;
+		    	background-image: linear-gradient(rgba(211,223,221,0), rgba(211,223,221,.8))
 		    }
 		</style>
 	</head>
 	<body>
+		<div id="smoke"></div>
 		<canvas id="artboard"></canvas>
 		<script src="js/three.js"></script>
 		<script src="js/main.js"></script>
