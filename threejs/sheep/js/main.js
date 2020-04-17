@@ -32,17 +32,14 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
 //camera
-camera.position.set(20,5,20);
+camera.position.set(25,5,0);
 camera.lookAt(new THREE.Vector3(0,5,0));
 
-// camera.position.set(0, 1, 5); //sheep front
-// camera.position.set(5, 1, -1); //sheep left
+// camera.position.set(0, 2, 5); //sheep front
+// camera.position.set(8, 1, 0); //sheep left
 // camera.position.set(0, 5, 0); //sheep top
-// camera.lookAt(new THREE.Vector3(0, 1, 0));
+// camera.lookAt(new THREE.Vector3(0, 2, 0));
 
-//top camera
-// camera.position.set(0, 20, 0);
-// camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 //lights, 3 point lighting
 var col_light = 0xffffff; // set
@@ -73,14 +70,16 @@ scene.add(fillLight);
 scene.add(backLight);
 
 // axis
-var axesHelper = new THREE.AxesHelper(50);
-scene.add(axesHelper);
+// var axesHelper = new THREE.AxesHelper(50);
+// scene.add(axesHelper);
 
 //materials
 var mat_orange = new THREE.MeshLambertMaterial({ color: 0xFF8C75 });
 var mat_grey=new THREE.MeshLambertMaterial({color:0xf3f2f7});
 var mat_yellow=new THREE.MeshLambertMaterial({color:0xfeb42b});
 var mat_dark=new THREE.MeshLambertMaterial({color:0x5a6e6c});
+var mat_brown=new THREE.MeshLambertMaterial({color:0xa3785f});
+var mat_stone=new THREE.MeshLambertMaterial({color:0x9EAEAC});
 //-------------------------------------ground-------------------------------------
 var layers = [];
 var ground = new THREE.Group();
@@ -208,6 +207,22 @@ tree_2.children[3].rotation.x=pi/3;
 tree_2.children[3].position.z=trunk.position.z+1;
 scene.add(tree_2);
 
+//-------------------------------------stone-------------------------------------
+var geo_stone=new THREE.DodecahedronGeometry(1,0);
+var stone=[];
+for(var i=0;i<2;i++){
+  stone[i]=new THREE.Mesh(geo_stone,mat_stone);
+  scene.add(stone[i]);
+  stone[i].castShadow=true;
+}
+stone[0].rotation.set(0,12,pi/2);
+stone[0].scale.set(3,1,1);
+stone[0].position.set(-1,1,4.6);
+
+stone[1].rotation.set(0,0,pi/2);
+stone[1].scale.set(1,1,1);
+stone[1].position.set(0,.7,5.3);
+
 
 //-------------------------------------sheep-------------------------------------
 //sheep body
@@ -216,27 +231,39 @@ var sheep=new THREE.Group();
 var geo_sheepHead=new THREE.IcosahedronGeometry(1,0);
 var sheepHead=new THREE.Mesh(geo_sheepHead,mat_dark);
 sheepHead.scale.z=.6;
-sheepHead.position.y=3;
+sheepHead.scale.y=1.1;
+sheepHead.position.y=2.5;
 sheepHead.rotation.x=-.2;
+sheepHead.castShadow=true;
+sheep.add(sheepHead);
 
-var geo_sheepBody=new THREE.IcosahedronGeometry(4,0);
+var geo_sheepBody=new THREE.IcosahedronGeometry(3.5,0);
 var sheepBody=new THREE.Mesh(geo_sheepBody,mat_grey);
-sheepBody.position.set(0,3,-2.2);
+sheepBody.position.set(0,sheepHead.position.y,-2.2);
 sheepBody.scale.set(.5,.5,.6);
 sheepBody.rotation.set(0,0,pi/3);
+sheepBody.castShadow=true;
 sheep.add(sheepBody);
+
+var geo_tail=new THREE.IcosahedronGeometry(.5,0);
+var tail=new THREE.Mesh(geo_tail,mat_grey);
+tail.position.set(sheepHead.position.x,sheepHead.position.y+1.2,-3.8);
+tail.castShadow=true;
+sheep.add(tail);
 
 var hair=[];
 var geo_hair=new THREE.IcosahedronGeometry(.4,0)
 for(var i=0;i<5;i++){
   hair[i]=new THREE.Mesh(geo_hair,mat_grey);
+  hair[i].castShadow=true;
   sheep.add(hair[i]);
 }
-hair[0].position.set(-.25,3.8, .1);
-hair[1].position.set(   0, 4, .1);
-hair[2].position.set( .4,3.9, 0);
-hair[3].position.set(-.1, 3.9,-.3);
-hair[4].position.set(  .12,3.9,-.3);
+
+hair[0].position.set( -.4,sheepHead.position.y+.9,-.1);
+hair[1].position.set(   0, sheepHead.position.y+1,-.1);
+hair[2].position.set(  .4,sheepHead.position.y+.9,-.1);
+hair[3].position.set( -.1,sheepHead.position.y+.9,-.4);
+hair[4].position.set( .12,sheepHead.position.y+.9,-.4);
 
 hair[0].rotation.set(pi/12,0,pi/3)
 hair[1].rotation.set(pi/12,pi/6,pi/3)
@@ -249,16 +276,95 @@ hair[2].scale.set(.8,.8,.8);
 hair[3].scale.set(.7,.7,.7);
 hair[4].scale.set(.6,.6,.6);
 
-sheep.add(sheepHead);
+var legs=[];
+var geo_leg=new THREE.CylinderGeometry(.15,.1,1,5);
+for(var i=0;i<4;i++){
+  legs[i]=new THREE.Mesh(geo_leg,mat_dark);
+  legs[i].castShadow=true;
+  legs[i].receiveShadow=true;
+  sheep.add(legs[i]);
+}
+legs[0].position.set(.5,1.1,-1.5);
+legs[1].position.set(-.5,1.1,-1.5);
+legs[2].position.set(.8,1.1,-3);
+legs[3].position.set(-.8,1.1,-3);
 
+var feet=[];
+var geo_foot=new THREE.DodecahedronGeometry(.2,0);
+for(var i=0;i<legs.length;i++){
+  feet[i]=new THREE.Mesh(geo_foot,mat_dark);
+  sheep.add(feet[i]);
+  feet[i].scale.set(1,.8,1);
+  feet[i].castShadow=true;
+  feet[i].receiveShadow=true;
+  feet[i].position.set(legs[i].position.x,0,legs[i].position.z+.09);
+}
+feet[0].position.y=.56;
+feet[1].position.y=.66;
+feet[2].position.y=.7;
+feet[3].position.y=.7;
 
+//eyes
+var geo_eye=new THREE.CylinderGeometry(.3,.2,.05,8);
+var eyes=[];
+for(var i=0;i<2;i++){
+  eyes[i]=new THREE.Mesh(geo_eye,mat_grey);
+  sheep.add(eyes[i]);
+  eyes[i].castShadow=true;
+  eyes[i].position.set(0,sheepHead.position.y+.1,.5);
+  eyes[i].rotation.x=pi/2-pi/15;
+}
+eyes[0].position.x=.3;
+eyes[1].position.x=-eyes[0].position.x;
 
+eyes[0].rotation.z=-pi/15;
+eyes[1].rotation.z=-eyes[0].rotation.z;
 
-// sheep.scale.set(2,2,2);
+//eyeballs
+var geo_eyeball=new THREE.SphereGeometry(.11,8,8);
+eyeballs=[];
+for(var i=0;i<2;i++){
+  eyeballs[i]=new THREE.Mesh(geo_eyeball,mat_dark);
+  sheep.add(eyeballs[i]);
+  eyeballs[i].castShadow=true;
+  eyeballs[i].position.set(eyes[i].position.x,eyes[i].position.y-.03,eyes[i].position.z+.02)
+}
+eyeballs[0].position.x+=.05;
+eyeballs[1].position.x+=.05;
 
+sheep.position.set(4.8,-.2,-1);
+sheep.scale.set(.8,.8,.8);
+sheep.rotation.set(0,pi/4,0);
 scene.add(sheep);
 
+//fence
+var fence=new THREE.Group();
+var wood=[];
+var geo_wood=new THREE.BoxGeometry(1,1,1);
+for(var i=0;i<4;i++){
+  wood[i]=new THREE.Mesh(geo_wood,mat_brown);
+  fence.add(wood[i]);
+  wood[i].castShadow=true;
+  wood[i].receiveShadow=true;
+}
+wood[0].scale.set(.15,1.7,.4);
+wood[1].scale.set(.15,1.8,.4);
+wood[2].scale.set(.1,.3,3.2);
+wood[3].scale.set(.1,.3,3.2);
 
+wood[0].position.set(0,1.2,-1);
+wood[1].position.set(0,1,1);
+// wood[2].position.set(.12,1.5,0);
+wood[2].position.set(0,1.5,0);
+wood[3].position.set(.12,.9,0);
+
+wood[3].rotation.x=pi/32;
+wood[2].rotation.x=-pi/32;
+wood[2].rotation.y=pi/32;
+
+fence.position.set(3,0,2);
+fence.rotation.y=pi/5;
+scene.add(fence);
 
 
 
