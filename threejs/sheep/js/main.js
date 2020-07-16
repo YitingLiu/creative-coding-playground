@@ -26,7 +26,13 @@ var renderer = new THREE.WebGLRenderer({
   alpha: true,
   antialias: true
 });
-renderer.setSize(w, h);
+
+const dpi = window.devicePixelRatio;
+renderer.setSize(w * dpi, h * dpi);
+const canvas = document.getElementById("artboard");
+canvas.style.width = `${w}px`;
+canvas.style.height = `${h}px`;
+
 renderer.shadowMapEnabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
@@ -74,12 +80,19 @@ scene.add(backLight);
 // scene.add(axesHelper);
 
 //materials
-var mat_orange = new THREE.MeshLambertMaterial({ color: 0xFF8C75 });
-var mat_grey=new THREE.MeshLambertMaterial({color:0xf3f2f7});
-var mat_yellow=new THREE.MeshLambertMaterial({color:0xfeb42b});
-var mat_dark=new THREE.MeshLambertMaterial({color:0x5a6e6c});
-var mat_brown=new THREE.MeshLambertMaterial({color:0xa3785f});
-var mat_stone=new THREE.MeshLambertMaterial({color:0x9EAEAC});
+// var mat_orange = new THREE.MeshLambertMaterial({ color: 0xFF8C75 });
+// var mat_grey=new THREE.MeshLambertMaterial({color:0xf3f2f7});
+// var mat_yellow=new THREE.MeshLambertMaterial({color:0xfeb42b});
+// var mat_dark=new THREE.MeshLambertMaterial({color:0x5a6e6c});
+// var mat_brown=new THREE.MeshLambertMaterial({color:0xa3785f});
+// var mat_stone=new THREE.MeshLambertMaterial({color:0x9EAEAC});
+
+var mat_orange = new THREE.MeshStandardMaterial({ color: 0xFF8C75,flatShading:true });
+var mat_grey=new THREE.MeshStandardMaterial({color:0xf3f2f7,flatShading:true});
+var mat_yellow=new THREE.MeshStandardMaterial({color:0xfeb42b,flatShading:true});
+var mat_dark=new THREE.MeshStandardMaterial({color:0x5a6e6c,flatShading:true});
+var mat_brown=new THREE.MeshStandardMaterial({color:0xa3785f,flatShading:true});
+var mat_stone=new THREE.MeshStandardMaterial({color:0x9EAEAC,flatShading:true});
 //-------------------------------------ground-------------------------------------
 var layers = [];
 var ground = new THREE.Group();

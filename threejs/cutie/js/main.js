@@ -14,7 +14,12 @@ var camera = new THREE.PerspectiveCamera(
     nearPlane,
     farPlane);
 var renderer = new THREE.WebGLRenderer({canvas: artboard, alpha: true, antialias: true});
-renderer.setSize( w, h );
+const dpi = window.devicePixelRatio;
+renderer.setSize(w * dpi, h * dpi);
+const canvas = document.getElementById('artboard');
+canvas.style.width = `${w}px`;
+canvas.style.height = `${h}px`;
+
 renderer.shadowMapEnabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild( renderer.domElement );
@@ -338,7 +343,6 @@ function getMousePos(canvas, evt) {
   };
 }
 
-var canvas = document.getElementById('artboard');
 var context = canvas.getContext('2d');
 
 canvas.addEventListener('mousemove', function(evt) {
